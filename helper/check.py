@@ -22,6 +22,7 @@ from handler.logHandler import LogHandler
 from helper.validator import ProxyValidator
 from handler.proxyHandler import ProxyHandler
 from handler.configHandler import ConfigHandler
+from iptocc import get_country_code
 
 
 class DoValidator(object):
@@ -79,11 +80,12 @@ class DoValidator(object):
     @classmethod
     def regionGetter(cls, proxy):
         try:
-            url = 'https://searchplugin.csdn.net/api/v1/ip/get?ip=%s' % proxy.proxy.split(':')[0]
-            r = WebRequest().get(url=url, retry_time=1, timeout=2).json
-            return r['data']['address']
+            # url = 'https://ip-api.com/json/%s' % proxy.proxy.split(':')[0]
+            # r = WebRequest().get(url = url, retry_time = 3, timeout = 10).json
+            # return r['country']
+            return get_country_code(proxy.proxy.split(':')[0])
         except:
-            return 'error'
+            return 'Error'
 
 
 class _ThreadChecker(Thread):
